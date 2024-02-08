@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useState } from 'react';
 import { healthCheck } from '@/api';
+import { Button } from '@/components/ui/button';
 
 function App() {
   const [data, setData] = useState<string | null>(null);
@@ -13,9 +14,9 @@ function App() {
 
   return (
     <div className="card">
-      <button onClick={fetchData} disabled={isLoading}>
+      <Button className="margin-4" onClick={fetchData} disabled={isLoading}>
         {isLoading ? 'Loading...' : 'Fetch Data'}
-      </button>
+      </Button>
       {data && <div>Data: {data}</div>}
       {error && <div>Error: {error}</div>}
     </div>
