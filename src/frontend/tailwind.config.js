@@ -17,6 +17,17 @@ export default {
       },
     },
     extend: {
+      colors: {
+        'bc-blue-500': '#003366',
+        'bc-blue-300': '#1A5A96',
+        'bc-blue-200': '#38598A',
+        'bc-gray-500': '#313132',
+        'bc-gray-300': '#606060',
+        'bc-gray-100': '#F2F2F2',
+        'bc-yellow-500': '#FCBA19',
+        'bc-red-500': '#D8292F',
+        'bc-green-500': '#2E8540',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
