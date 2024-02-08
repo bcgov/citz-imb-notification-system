@@ -1,0 +1,26 @@
+# Dockerfile for backend service
+
+# Accept build argument for Node version
+ARG NODE_IMAGE
+ARG BACKEND_PORT
+
+# Use the Node.js image with the specified version
+FROM ${NODE_IMAGE}
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app/backend
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm i
+
+# Copy the backend code
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE ${BACKEND_PORT}
+
+# Command to run the app
+CMD [ "npm", "run", "dev" ]

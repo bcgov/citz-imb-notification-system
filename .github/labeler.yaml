@@ -1,0 +1,22 @@
+# Config file for labeler
+
+# Changes to the following directories will trigger the labeler
+
+"Github Actions":
+  - .github/**
+
+"Backend":
+  - src/backend/**
+
+"Frontend":
+  - src/frontend/**
+
+"Database":
+  - src/db/**
+
+"E2E":
+  - src/e2e/**
+
+"Docker":
+  - "**/Dockerfile*"
+  - docker-compose.*.yml

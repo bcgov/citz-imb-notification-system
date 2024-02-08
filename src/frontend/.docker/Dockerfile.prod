@@ -1,0 +1,40 @@
+# # Dockerfile for frontend service
+# Stage 1: Build the application
+
+# Accept build argument for Node version
+ARG NODE_IMAGE
+ARG CADDY_IMAGE
+
+# Use the Node.js image with the specified version
+FROM ${NODE_IMAGE} as builder
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app/frontend
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm i
+
+# Copy the frontend code
+COPY . .
+
+# Build the frontend
+RUN npm run build
+
+# Stage 2: Serve the application with Caddy
+# Accept build argument for Caddy version
+FROM ${CADDY_IMAGE} as caddy
+
+# Install certutil if needed for managing system trust store
+RUN apk update && apk add nss-tools
+
+# Copy built assets from builder stage
+COPY --from=builder /usr/src/app/frontend/dist /usr/share/caddy
+
+# Optionally copy the Caddyfile if needed
+COPY /.caddy/prod.Caddyfile /etc/caddy/Caddyfile
+
+# Optionally format the Caddyfile
+RUN caddy fmt --overwrite /etc/caddy/Caddyfile

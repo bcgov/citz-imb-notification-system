@@ -1,0 +1,25 @@
+{
+	"name": "fullstack-template",
+	"version": "1.0.0",
+	"description": "Fullstack Template Application",
+	"license": "ISC",
+	"scripts": {
+		"init": "cd src/frontend && npm i && cd ../backend && npm i",
+		"dev:up": "docker compose -f compose.dev.yaml up -d",
+		"dev:down": "docker compose -f compose.dev.yaml down",
+		"dev:build": "docker compose -f compose.dev.yaml build",
+		"dev:rebuild": "docker compose -f compose.dev.yaml down --rmi all --volumes && docker compose -f compose.dev.yaml build --no-cache && docker compose -f compose.dev.yaml up -d",
+		"dev:prune": "docker compose -f compose.dev.yaml down --rmi all --volumes",
+		"dev:logs": "docker compose -f compose.dev.yaml logs -f",
+		"prod:up": "docker compose -f compose.prod.yaml up -d",
+		"prod:down": "docker compose -f compose.prod.yaml down",
+		"prod:build": "docker compose -f compose.prod.yaml build",
+		"prod:rebuild": "docker compose -f compose.prod.yaml down --rmi all --volumes && docker compose -f compose.prod.yaml build --no-cache && docker compose -f compose.prod.yaml up -d",
+		"prod:prune": "docker compose -f compose.prod.yaml down --rmi all --volumes",
+		"prod:logs": "docker compose -f compose.prod.yaml logs -f",
+		"shell:frontend": "docker exec -it frontend-Fullstack-Template sh",
+		"shell:backend": "docker exec -it backend-Fullstack-Template sh",
+		"shell:db": "docker exec -it db-Fullstack-Template sh",
+		"prune": "docker system prune -af --volumes"
+	}
+}

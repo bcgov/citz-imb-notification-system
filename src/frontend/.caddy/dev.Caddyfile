@@ -1,0 +1,19 @@
+{
+	auto_https off # disable auto https
+
+	log {
+		format json # set runtime log format to json mode 
+	}
+}
+
+{$CADDY_DEV_URL} {
+	# Reverse proxy for /api
+	handle /api* {
+		reverse_proxy {$CADDY_DEV_BACKEND_URL}
+	}
+
+	# Default reverse proxy (for all other requests)
+	handle /* {
+		reverse_proxy {$CADDY_DEV_FRONTEND_URL}
+	}
+}

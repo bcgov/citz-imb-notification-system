@@ -1,0 +1,91 @@
+version: "3.8"
+
+# Services
+services:
+  ##############################################################################
+  #                                   Frontend                                 #
+  ##############################################################################
+  frontend:
+    container_name: frontend-${APP_NAME}
+    restart: always
+    build:
+      context: ./src/frontend
+      dockerfile: .docker/Dockerfile.prod
+      args:
+        - NODE_IMAGE=${NODE_IMAGE}
+        - CADDY_IMAGE=${CADDY_IMAGE}
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    depends_on:
+      - backend
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - shared-network
+    environment:
+      - FRONTEND_PORT=${FRONTEND_PORT}
+      - CADDY_PROD_URL=${CADDY_PROD_URL}
+      - CADDY_PROD_BACKEND_URL=${CADDY_PROD_BACKEND_URL}
+
+  ##############################################################################
+  #                                   Backend                                  #
+  ##############################################################################
+  backend:
+    container_name: backend-${APP_NAME}
+    restart: always
+    build:
+      context: ./src/backend
+      dockerfile: .docker/Dockerfile.prod
+      args:
+        - NODE_IMAGE=${NODE_IMAGE}
+        - BACKEND_PORT=${BACKEND_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - shared-network
+    environment:
+    - BACKEND_PORT=${BACKEND_PORT}
+    - DATABASE_HOST=${DATABASE_HOST}
+    - DATABASE_USER=${DATABASE_USER}
+    - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    - DATABASE_NAME=${DATABASE_NAME}
+    - DATABASE_PORT=${DATABASE_PORT}
+
+  ##############################################################################
+  #                                   Database                                 #
+  ##############################################################################
+  db:
+    container_name: db-${APP_NAME}
+    restart: always
+    build:
+      context: ./src/db
+      dockerfile: .docker/Dockerfile.prod
+      args:
+        - DATABASE_IMAGE=${DATABASE_IMAGE}
+        - DATABASE_PORT=${DATABASE_PORT}
+    environment: # Adapt these to match the database type you're using
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Adjust the volume name if using a different database
+    networks:
+      - shared-network
+
+  ##############################################################################
+  #                                    Extra                                   #
+  ##############################################################################
+
+# Volumes
+volumes:
+  postgres_data: # Adjust the volume name if using a different database
+  caddy_data:
+  caddy_config:
+
+# Networks
+networks:
+  shared-network: # Adjust the network name for project
+    driver: "bridge"

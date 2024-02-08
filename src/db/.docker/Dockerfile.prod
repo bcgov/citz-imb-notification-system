@@ -1,0 +1,14 @@
+# Dockerfile for db service
+
+# Accept build argument
+ARG DATABASE_IMAGE
+ARG DATABASE_PORT
+
+# Use the specified database image
+FROM ${DATABASE_IMAGE}
+
+# Expose the database port
+EXPOSE ${DATABASE_PORT}
+
+# Default command to run when starting the container
+CMD ["postgres"]

@@ -1,0 +1,13 @@
+name: Util - Auto Assign
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  add-assignee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kentaro-m/auto-assign-action@v1.2.6
+        with:
+          configuration-path: '.github/auto-action-config.yaml'
