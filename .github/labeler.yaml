@@ -2,8 +2,9 @@
 
 # Changes to the following directories will trigger the labeler
 
-"Github Actions":
-  - .github/**
+"GitHub Actions":
+  - .github/workflows/*
+  - .github/helpers/*
 
 "Backend":
   - src/backend/**
