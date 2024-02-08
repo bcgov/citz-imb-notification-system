@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { healthCheck } from '@/api';
 import { Button } from '@/components/ui/button';
-import { Messages } from '@/pages/Messages';
+import { Messages } from '@/components/forms/Messages';
 
 function App() {
   const [data, setData] = useState<string | null>(null);
