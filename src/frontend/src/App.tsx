@@ -17,29 +17,27 @@ function App() {
   useEffect(() => {
     Notification.requestPermission()
       .then(function (result) {
-        if(result === 'granted') {
-          if( message !== ''){
+        if (result === 'granted') {
+          if (message !== '') {
             new Notification('New Message!', {
-              body: message
+              body: message,
             });
           }
         }
       })
       .catch((err) => {
         console.log('Error: ', err);
-      })
+      });
 
     console.log('HERE: ', message);
   }, [message]);
 
   return (
     <div className="card">
-      <Button className="margin-4" onClick={fetchData} disabled={isLoading}>
+      <Button onClick={fetchData} disabled={isLoading}>
         {isLoading ? 'Loading...' : 'Fetch Data'}
       </Button>
-      <Messages
-        setMessage={setMessage}
-      />
+      <Messages setMessage={setMessage} />
       {data && <div>Data: {data}</div>}
       {error && <div>Error: {error}</div>}
     </div>
