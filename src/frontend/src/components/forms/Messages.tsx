@@ -24,7 +24,7 @@ const formSchema = z.object({
 })
 
 interface MessageProps {
-    setMessage: React.Dispatch<React.SetStateAction<string | null>>;
+    setMessage: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 
